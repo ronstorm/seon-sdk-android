@@ -1,126 +1,99 @@
-# SeonSDK: A Comprehensive Android Photo Management Library
+# SeonSDK (Android)
 
-SeonSDK is an Android library that provides a seamless way to capture, store, view, and manage photos within your app. Designed with a modern approach, the SDK uses CameraX, MVVM architecture, and Kotlin coroutines for a responsive and user-friendly experience. Key features include:
+### Capture, Store, and View Photos with Ease 📸
 
-- **Capture Photos**: Easily capture photos using the device's camera with built-in error handling.
-- **Biometric Authentication**: Secure access to photos with biometric authentication.
-- **View and Manage Photos**: View photos in a gallery with options for full-screen viewing and easy deletion.
-- **Reactive Programming**: Uses Kotlin Flows for reactive state management and asynchronous operations.
-- **Extensible and Modular**: Designed with clean architecture principles, making it easy to integrate and extend.
+**SeonSDK** is a lightweight, easy-to-integrate library for Android that provides seamless functionalities to capture photos, store them securely, and view them in a beautifully designed gallery. With built-in biometric authentication, you can ensure that only authorized users can access stored photos.
 
-SeonSDK helps developers quickly add robust photo management capabilities to their Android applications with minimal setup and maximum flexibility.
+## Objective
 
-## Integration Guide
+The objective of **SeonSDK** is to provide a simplified and unified interface for photo management within Android applications, allowing developers to quickly integrate camera functionalities, secure photo storage, and access with user authentication using the device's built-in biometric capabilities.
 
-### Step 1: Add AAR Files to Your Project
+## How to Integrate in Your Application
 
-- Copy the SeonSDK `.aar` (debug and/or release) files to your project’s `libs` folder
-    - seonsdk-debug.aar
-    - seonsdk-release.aar
+To integrate **SeonSDK** into your Android application, follow these simple steps:
 
-### Step 2: Update Your AndroidManifest.xml
-- Go to your project’s `AndroidManifest.xml` and add the following lines to request the necessary permissions and features:
+1. **Add AAR Files to Your Project**: 
+   - Download the [SeonSDK Libraries](https://github.com/ronstorm/seonsdk-libraries/tree/master/Android) and place them in your project’s `libs` folder.
 
- ```xml
- <uses-feature
-     android:name="android.hardware.camera"
-     android:required="false" />
+2. **Update `AndroidManifest.xml` for Camera and Media Permissions**:
+   - Add the following lines to request permissions for camera and media access:
+     ```xml
+     <uses-feature
+         android:name="android.hardware.camera"
+         android:required="false" />
 
- <uses-permission android:name="android.permission.CAMERA" />
- <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
- <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
- <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
- ```
+     <uses-permission android:name="android.permission.CAMERA" />
+     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+     ```
 
-### Step 3: Add Dependencies to build.gradle.kts (App Module)
-- Add the following dependencies to your app’s `build.gradle.kts` file to include required libraries:
+3. **Add Dependencies to `build.gradle.kts` (App Module)**:
+   - Add the following dependencies to your app’s `build.gradle.kts` file to include required libraries:
+     ```kotlin
+     implementation("androidx.biometric:biometric:1.1.0")
+     implementation("androidx.camera:camera-core:1.3.4")
+     implementation("androidx.camera:camera-camera2:1.3.4")
+     implementation("androidx.camera:camera-lifecycle:1.3.4")
+     implementation("androidx.camera:camera-view:1.3.4")
+     implementation("androidx.camera:camera-extensions:1.3.4")
+     implementation("androidx.exifinterface:exifinterface:1.3.7")
+     ```
 
- ```kotlin
- implementation("androidx.biometric:biometric:1.1.0")
- implementation("androidx.camera:camera-core:1.3.4")
- implementation("androidx.camera:camera-camera2:1.3.4")
- implementation("androidx.camera:camera-lifecycle:1.3.4")
- implementation("androidx.camera:camera-view:1.3.4")
- implementation("androidx.camera:camera-extensions:1.3.4")
- implementation("androidx.exifinterface:exifinterface:1.3.7")
- ```
+4. **Initialize the SDK in Your Application Class**:
+   - Initialize the SeonSDK inside your application class by adding the following code:
+     ```kotlin
+     class TestApplication : Application() {
 
-### Step 4: Initialize the SDK in Your Application Class
-- Initialize the SeonSDK inside your application class by adding the following code:
-
- ```kotlin
- class TestApplication : Application() {
-
-     override fun onCreate() {
-         super.onCreate()
-         // Initialize PhotoSDK with the application context
-         PhotoSDK.initialize(this)
+         override fun onCreate() {
+             super.onCreate()
+             // Initialize PhotoSDK with the application context
+             PhotoSDK.initialize(this)
+         }
      }
- }
- ```
+     ```
 
-### That’s it! SeonSDK(PhotoSDK) is now integrated into your project. 
+## Usage
 
-You can start using the SDK’s powerful photo management features to enhance your Android application.
+Below is a quick guide on how to use **SeonSDK** in your application:
 
-
-## Exposed Methods in PhotoSDK
-
-SeonSDK(PhotoSDK) provides two main methods to interact with the camera and gallery functionalities:
-
-### 1. `takePhoto()`
-**Description**: This method launches the camera interface to capture a photo using the device’s camera. It uses a fragment-based approach, making it easy to integrate within any existing UI structure.
-
-**Usage**:
-- **Parameters**:
-- `onError: (String) -> Unit`: A callback that is triggered if an error occurs during the photo capture process.
-- `onSuccess: (File) -> Unit`: A callback that is triggered when the photo is successfully captured and saved.
-- **Return Value**: Returns a `Fragment` (`CameraFragment`) that you can add to your UI for capturing photos.
-
-**Example**:
 ```kotlin
+// Import the SDK
+import com.example.seonsdk.main.PhotoSDK
+
+// Use the takePhoto() method to capture photos
 val cameraFragment = PhotoSDK.takePhoto(
- onError = { errorMessage ->
-     // Handle error (e.g., show a toast)
- },
- onSuccess = { photoFile ->
-     // Handle the captured photo (e.g., display or save the file)
- }
+    onError = { errorMessage ->
+        // Handle error (e.g., show a toast)
+        println("Error capturing photo: $errorMessage")
+    },
+    onSuccess = { photoFile ->
+        // Handle the captured photo (e.g., display or save the file)
+        println("Photo captured: ${photoFile.path}")
+    }
 )
-```
 
-### 2. `accessPhotos()`
-**Description**: This method allows you to access the photos stored within the app’s internal storage. It includes built-in biometric authentication to ensure secure access to sensitive media files.
-
-**Usage**:
-- **Parameters**:
-- `activity: FragmentActivity`: A callback that is triggered if an error occurs during the photo capture process.
-- `onAuthenticated: (Fragment) -> Unit`: A callback that is triggered when the photo is successfully captured and saved.
-- `onError: (AuthService.Error) -> Unit`: A callback that is triggered if authentication fails or an error occurs.
-
-**Example**:
-```kotlin
+// Use the accessPhotos() method to access photos securely
 PhotoSDK.accessPhotos(
     activity = this, // Pass the current activity
     onAuthenticated = { galleryFragment ->
-        // Show the gallery fragment (e.g., add it to your fragment manager)
+        // Display the gallery fragment
+        println("Gallery accessed successfully.")
     },
     onError = { errorMessage ->
         // Handle authentication or access error (e.g., show a toast)
+        println("Error accessing gallery: $errorMessage")
     }
 )
 ```
 
-### Sample Test Application
+## Sample Application
 
-To help you get started quickly, a sample test application that integrates the SeonSDK (PhotoSDK) Library is available. This example demonstrates how to use the SDK's features in a real-world setup, providing a practical reference for your integration.
-
-**[Check out the Sample Test Application here](https://github.com/ronstorm/seon-test-app-android.git)**
-
----
-
-Feel free to explore the sample application and use it as a guide for integrating SeonSDK into your own projects. Happy coding!
+To see **SeonSDK** in action, check out the [sample application](https://github.com/ronstorm/seon-test-app-android) that demonstrates the full capabilities of the framework. This sample app shows how to integrate and utilize the SDK for photo capture, storage, and gallery access.
 
 
 ## Conclusion
-`SeonSDK (PhotoSDK)` simplifies photo management in Android apps by offering powerful, secure, and easy-to-integrate functionalities for capturing, viewing, and managing photos. With seamless integration, modern architecture, and robust error handling, SeonSDK enhances the user experience and saves development time. Get started with SeonSDK today to bring advanced photo capabilities to your Android application effortlessly!
+
+**SeonSDK** aims to simplify photo management in Android applications, providing a clean and intuitive interface for developers. We welcome feedback and contributions to help improve the library. If you encounter any issues or have suggestions, feel free to open an issue or submit a pull request on GitHub.
+
+Thank you for using **SeonSDK**! 🚀
