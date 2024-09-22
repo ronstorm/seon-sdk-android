@@ -111,5 +111,16 @@ PhotoSDK.accessPhotos(
 )
 ```
 
+### Sample Test Application
+
+To help you get started quickly, a sample test application that integrates the SeonSDK (PhotoSDK) Library is available. This example demonstrates how to use the SDK's features in a real-world setup, providing a practical reference for your integration.
+
+**[Check out the Sample Test Application here](https://github.com/ronstorm/seon-test-app-android.git)**
+
+---
+
+Feel free to explore the sample application and use it as a guide for integrating SeonSDK into your own projects. Happy coding!
+
+
 ## Conclusion
 `SeonSDK (PhotoSDK)` simplifies photo management in Android apps by offering powerful, secure, and easy-to-integrate functionalities for capturing, viewing, and managing photos. With seamless integration, modern architecture, and robust error handling, SeonSDK enhances the user experience and saves development time. Get started with SeonSDK today to bring advanced photo capabilities to your Android application effortlessly!
