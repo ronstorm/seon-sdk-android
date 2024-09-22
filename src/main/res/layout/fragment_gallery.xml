@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/fragment_gallery.xml -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Main content layout -->
+    <LinearLayout
+        android:id="@+id/mainContentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
+
+        <!-- Title TextView -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Photos"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp"
+            android:gravity="center" />
+
+        <!-- Caption TextView for showing the number of photos -->
+        <TextView
+            android:id="@+id/captionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 photos"
+            android:textSize="14sp"
+            android:paddingBottom="16dp"
+            android:gravity="center" />
+
+        <!-- RecyclerView to display the photos -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <!-- Background blur overlay when the photo is in full screen -->
+    <View
+        android:id="@+id/blurBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:visibility="gone" /> <!-- Initially hidden -->
+
+    <!-- Full-screen overlay for viewing the image -->
+    <FrameLayout
+        android:id="@+id/fullScreenOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CC000000"
+        android:visibility="gone"> <!-- Initially hidden -->
+
+        <!-- ImageView to display the full-screen image -->
+        <ImageView
+            android:id="@+id/fullScreenImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter" />
+
+        <!-- Close button on the top right corner -->
+        <ImageView
+            android:id="@+id/closeButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="top|end"
+            android:padding="16dp"
+            android:src="@drawable/close_48" />
+    </FrameLayout>
+</FrameLayout>
